@@ -7,8 +7,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-     with:
-       node-version: '22'
+              with:
+                node-version: '22'
       - run:
           curl -L -o pakeplus.zip https://github.com/Sjj1024/PakePlus-iOS/archive/refs/heads/main.zip
           unzip pakeplus.zip
