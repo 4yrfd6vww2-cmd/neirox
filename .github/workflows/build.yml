@@ -1,0 +1,40 @@
+name: Build iOS IPA
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Install dependencies
+        run: |
+          brew install xcodegen
+          xcodegen generate
+
+      - name: Build Xcode project
+        run: |
+          xcodebuild -project PakePlus.xcodeproj -scheme PakePlus -sdk iphoneos -configuration Release CODE_SIGNING_ALLOWED=NO ARCHS=arm64 ONLY_ACTIVE_ARCH=NO -derivedDataPath build
+          mkdir -p output
+          mv build/Build/Products/Release-iphoneos/PakePlus.app output/
+
+      - name: Create IPA
+        run: |
+          mkdir -p output/Payload
+          mv output/PakePlus.app output/Payload/
+          cd output
+          zip -r PakePlus.ipa Payload
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: PakePlus-IPA
+          path: output/PakePlus.ipa
