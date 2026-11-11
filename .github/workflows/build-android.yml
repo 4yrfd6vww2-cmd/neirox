@@ -19,7 +19,7 @@ jobs:
           mv PakePlus-Android-main/* .
           rm -rf PakePlus-Android-main pakeplus.zip
       - run: chmod +x gradlew
-      - run: ./gradlew assembleRelease
+      - run: ./gradlew assembleDebug
       - uses: actions/upload-artifact@v4
         with:
           name: PakePlus-APK
