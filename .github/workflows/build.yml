@@ -6,7 +6,10 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      - run: |
+      - uses: actions/setup-node@v4
+     with:
+       node-version: '22'
+      - run:
           curl -L -o pakeplus.zip https://github.com/Sjj1024/PakePlus-iOS/archive/refs/heads/main.zip
           unzip pakeplus.zip
           mv PakePlus-iOS-main/* .
